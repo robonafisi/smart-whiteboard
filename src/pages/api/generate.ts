@@ -1,28 +1,33 @@
 import { Configuration, OpenAIApi } from 'openai';
+import { useState } from 'react';
 
 const configuration = new Configuration({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
-const openai = new OpenAIApi(configuration);
-const fromfront = "What is happening?"
 
-const basePromptPrefix = "";
-const generateAction = async (req, res) => {
-  // Run first prompt
-  console.log(`API: ${basePromptPrefix}${fromfront}`)
+const [apiOutput, setApiOutput] = useState('')
+const [isGenerating, setIsGenerating] = useState(false)
 
-  const baseCompletion = await openai.createCompletion({
-    model: 'text-davinci-003',
-    prompt: `${basePromptPrefix}${fromfront}`,
-    temperature: 0.7,
-    max_tokens: 250,
-  });
+const callGenerateEndpoint = async () => {
+  setIsGenerating(true);
   
-  const basePromptOutput = baseCompletion.data.choices.pop();
+  console.log("Calling OpenAI...")
+  const response = await fetch('/api/generate', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ userInput }),
+  });
 
-  res.status(200).json({ output: basePromptOutput });
-};
+  const data = await response.json();
+  const { output } = data;
+  console.log("OpenAI replied...", output.text)
+
+  setApiOutput(`${output.text}`);
+  setIsGenerating(false);
+}
 
 
 

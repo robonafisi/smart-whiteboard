@@ -33,26 +33,6 @@ export default function Home() {
     ctx.fill()
   };
 
-  // const basePromptPrefix = "";
-  // const fromfront = "What is happening?"
-  // //req.body.userInput
-
-  // const callAPI = async (req, res) => {
-  //   // Run first prompt
-  //   console.log(`API: ${basePromptPrefix}${fromfront}`)
-  
-  //   const baseCompletion = await openai.createCompletion({
-  //     model: 'text-davinci-003',
-  //     prompt: `${basePromptPrefix}${fromfront}`,
-  //     temperature: 0.7,
-  //     max_tokens: 250,
-  //   });
-    
-  //   const basePromptOutput = baseCompletion.data.choices.pop();
-  
-  //   res.status(200).json({ output: basePromptOutput });
-  // };
-
   return (
     <div className='w-screen h-screen bg-white flex justify-center items-center'>
 
