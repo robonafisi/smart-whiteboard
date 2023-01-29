@@ -13,6 +13,30 @@ export default function Home() {
   
   const[color, setColor] = useState<string>('#000')
   const { canvasRef, onMouseDown, clear } = useDraw(drawLine)
+  const [userInput, setUserInput] = useState('')
+  const [apiOutput, setApiOutput] = useState('')
+
+const callGenerateEndpoint = async () => {
+  
+  console.log("Calling OpenAI...")
+  const response = await fetch('/api/generate', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ userInput }),
+  });
+
+  const data = await response.json();
+  const { output } = data;
+  console.log("OpenAI replied...", output.text)
+
+  setApiOutput(`${output.text}`);
+}
+
+  const onUserChangedText = (e:HTMLTextAreaElement) => {
+    setUserInput(e.target?.value);
+  };
 
   function drawLine  ({prevPoint, currentPoint, ctx}: Draw) {
     const { x: currX, y: currY } = currentPoint
@@ -33,12 +57,41 @@ export default function Home() {
     ctx.fill()
   };
 
+
   return (
     <div className='w-screen h-screen bg-white flex justify-center items-center'>
-
-      <div>
-        <button className='p-2 rounded-md border border-black'>Make API call</button>
+      
+      <Head>
+        <title>AlgoLego MVP</title>
+      </Head>
+      <div className='m-6'>
+        <div className='border-solid border-2 border-black'>
+        <textarea
+          placeholder="start typing here"
+          className="prompt-box"
+          value={userInput}
+          onChange={onUserChangedText}
+        />
+        </div>
+        <div>
+        <button 
+        className='p-2 rounded-md border border-black w-full' 
+        onClick={callGenerateEndpoint}>Make API call
+        </button>
+        </div>
       </div>
+
+      {apiOutput && (
+      <div className="output">
+        <div className="output-header-container">
+        </div>
+        <div className="output-content">
+        <h3 contenteditable="true">
+          {apiOutput}
+        </h3>
+        </div>
+      </div>
+      )}      
 
       <div className='flex flex-col gap-10 pr-10'>
       <ChromePicker color={color} onChange={(e) => setColor(e.hex)}/>
