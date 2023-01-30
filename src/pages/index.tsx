@@ -14,7 +14,7 @@ export default function Home() {
   const[color, setColor] = useState<string>('#000')
   const { canvasRef, onMouseDown, clear } = useDraw(drawLine)
   const [userInput, setUserInput] = useState('')
-  const [apiOutput, setApiOutput] = useState('')
+const [apiOutput, setApiOutput] = useState('')
 
 const callGenerateEndpoint = async () => {
   
@@ -34,7 +34,7 @@ const callGenerateEndpoint = async () => {
   setApiOutput(`${output.text}`);
 }
 
-  const onUserChangedText = (e:HTMLTextAreaElement) => {
+  const onUserChangedText = (e) => {
     setUserInput(e.target?.value);
   };
 
@@ -75,23 +75,27 @@ const callGenerateEndpoint = async () => {
         </div>
         <div>
         <button 
-        className='p-2 rounded-md border border-black w-full' 
-        onClick={callGenerateEndpoint}>Make API call
+        className='p-2 rounded-md border border-black w-full'
+        onClick={callGenerateEndpoint} >
+          {/* onClick={callGenerateEndpoint}>Make API call */}
+          Make API Call
         </button>
         </div>
       </div>
 
+      <div>
       {apiOutput && (
       <div className="output">
         <div className="output-header-container">
         </div>
         <div className="output-content">
-        <h3 contenteditable="true">
+        <h3 contentEditable="true">
           {apiOutput}
         </h3>
         </div>
       </div>
-      )}      
+      )}    
+      </div>  
 
       <div className='flex flex-col gap-10 pr-10'>
       <ChromePicker color={color} onChange={(e) => setColor(e.hex)}/>
