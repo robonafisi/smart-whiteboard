@@ -90,7 +90,27 @@ const callGenerateEndpoint = async () => {
         </div>
 
         <div>
-       
+        <div>
+        <input
+          name='drawmode'
+          type="radio"
+          id="selection1"
+          value="drawing"
+          onChange={() => setDrawmode("drawing")}
+        />
+        <label>Drawing</label>
+        </div>
+        <div>
+        <input
+          name='drawmode'
+          type="radio"
+          id="selection2"
+          value="value"
+          onChange={() => setDrawmode("text")}
+        />
+        <label>Text</label>
+        </div>
+        </div>
 
       <div >
         {apiOutput && (
